@@ -18,14 +18,19 @@ public:
     unsigned long time();
     int count(unsigned long setTime);
 
-    void reset(String type);
+    void reset(int type);
 
 private:
     unsigned long previousTime;
+    unsigned long previousSetTime;
     unsigned long countPreviousTime;
 
     int counter;
     bool isReached;
+
+    bool timeStarted;
+    bool setStarted;
+    bool countStarted;
 };
 
 #endif

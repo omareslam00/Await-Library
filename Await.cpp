@@ -1,17 +1,29 @@
 #include "Await.h"
 
-Await::Await(){
-    previousTime = millis();
-    countPreviousTime = millis();
+Await::Await()
+{
+    previousTime = 0;
+    previousSetTime = 0;
+    countPreviousTime = 0;
 
     counter = 0;
     isReached = false;
+
+    timeStarted = false;
+    setStarted = false;
+    countStarted = false;
 }
 
-bool Await::set(unsigned long setTime){
+bool Await::set(unsigned long setTime)
+{
     unsigned long currentTime = millis();
 
-    if (currentTime - previousTime >= setTime){
+    if (!setStarted){
+        previousSetTime = currentTime;
+        setStarted = true;
+    }
+
+    if (currentTime - previousSetTime >= setTime){
         isReached = true;
     }
     else{
@@ -21,12 +33,26 @@ bool Await::set(unsigned long setTime){
     return isReached;
 }
 
-unsigned long Await::time(){
-    return millis() - previousTime;
+unsigned long Await::time()
+{
+    unsigned long currentTime = millis();
+
+    if (!timeStarted){
+        previousTime = currentTime;
+        timeStarted = true;
+    }
+
+    return currentTime - previousTime;
 }
 
-int Await::count(unsigned long setTime){
+int Await::count(unsigned long setTime)
+{
     unsigned long currentTime = millis();
+
+    if (!countStarted){
+        countPreviousTime = currentTime;
+        countStarted = true;
+    }
 
     if (currentTime - countPreviousTime >= setTime){
         counter++;
@@ -36,26 +62,39 @@ int Await::count(unsigned long setTime){
     return counter;
 }
 
-void Await::reset(int type){
-    if (type == 0){
+void Await::reset(int type)
+{
+    if (type == 0)
+    {
         previousTime = millis();
+        timeStarted = true;
     }
 
-    if (type == 1){
-        previousTime = millis();
+    if (type == 1)
+    {
+        previousSetTime = millis();
+        setStarted = true;
         isReached = false;
     }
 
-    if (type == 2){
+    if (type == 2)
+    {
         countPreviousTime = millis();
         counter = 0;
+        countStarted = true;
     }
 
-    if (type == 3){
+    if (type == 3)
+    {
         previousTime = millis();
+        previousSetTime = millis();
         countPreviousTime = millis();
 
         counter = 0;
         isReached = false;
+
+        timeStarted = true;
+        setStarted = true;
+        countStarted = true;
     }
 }
