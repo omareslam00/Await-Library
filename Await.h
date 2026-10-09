@@ -3,6 +3,12 @@
 
 #include <Arduino.h>
 
+#define TIME 0
+#define SET 1
+#define COUNT 2
+#define ALL 3
+
+
 class Await
 {
 public:

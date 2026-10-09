@@ -36,22 +36,22 @@ int Await::count(unsigned long setTime){
     return counter;
 }
 
-void Await::reset(String type){
-    if (type == "time"){
+void Await::reset(int type){
+    if (type == 0){
         previousTime = millis();
     }
 
-    if (type == "set"){
+    if (type == 1){
         previousTime = millis();
         isReached = false;
     }
 
-    if (type == "count"){
+    if (type == 2){
         countPreviousTime = millis();
         counter = 0;
     }
 
-    if (type == "all"){
+    if (type == 3){
         previousTime = millis();
         countPreviousTime = millis();
 
